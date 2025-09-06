@@ -1,95 +1,104 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React, { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import Hero from "@/components/Hero";
+import CountryModal from "@/components/CountryModal";
+import { COUNTRY_PINS } from "@/constants/pins";
+import { COUNTRY_DATA } from "@/constants/data";
+
+import type { Pin } from "@/components/Globe/types";
+import type { EyewearModalProps } from "@/components/CountryModal/types";
+type CountryCode = keyof typeof COUNTRY_DATA.trending_eyewear;
+
+const GlobeComponent = dynamic(() => import("@/components/Globe"), {
+  ssr: false,
+});
+
+const pins: Pin[] = COUNTRY_PINS;
+
+const Home: React.FC = () => {
+  const [selected, setSelected] = useState<EyewearModalProps | null>(null);
+  const [shouldLoadGlobe, setShouldLoadGlobe] = useState(false);
+  const globeSectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (shouldLoadGlobe) return; // already loaded
+    const el = globeSectionRef.current;
+    if (!el) return;
+
+    const thresholds = [0.25, 0.5, 0.75, 0.9, 0.95, 1];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Require near-full visibility (>=95%)
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+            setShouldLoadGlobe(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: thresholds }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [shouldLoadGlobe]);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div style={{ position: "relative" }}>
+      <Hero />
+      <section
+        ref={globeSectionRef}
+        style={{
+          minHeight: "100vh",
+          position: "relative",
+          background: "#0d1117",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {shouldLoadGlobe ? (
+          <GlobeComponent
+            pins={pins}
+            onPinClick={(pt) => {
+              const country = pins.find((p) => p.id === pt.id);
+              if (country) {
+                const code = country.id as CountryCode;
+                const rawItems = COUNTRY_DATA.trending_eyewear[code] || [];
+                const items = rawItems.map((it) => ({
+                  id: it.id,
+                  name: it.name,
+                  description: it.description,
+                  price: it.price,
+                  currency: it.currency,
+                  imageUrl: it.imageUrl,
+                  popularityScore: it.popularityScore,
+                  frameColors: it.frameColors ? [...it.frameColors] : undefined,
+                }));
+                setSelected({ country, items });
+              }
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              textAlign: "center",
+              color: "#444",
+              fontSize: "1.1rem",
+              opacity: 0.8,
+              padding: "1rem",
+            }}
+          ></div>
+        )}
+        <CountryModal
+          country={selected?.country ?? null}
+          items={selected?.items ?? []}
+          onClose={() => setSelected(null)}
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
     </div>
   );
-}
+};
+
+export default Home;

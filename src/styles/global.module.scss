@@ -1,0 +1,71 @@
+/* Global / shared module styles */
+
+body {
+  background-color: #0d1117;
+}
+
+/* Scroll Progress Indicator */
+/* Horizontal Sticky Scroll Progress (top) */
+.scrollProgressRail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: rgba(13, 17, 23, 0.85);
+  // opacity: 0.35; /* subtle rail */
+  overflow: hidden;
+  z-index: 100;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+}
+
+.scrollProgressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #67e8f9 0%,
+    #38bdf8 45%,
+    #818cf8 75%,
+    #c084fc 100%
+  );
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5));
+  opacity: 0.9;
+}
+
+@keyframes floatPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 0 2px #f1f5f9, 0 4px 10px -2px rgba(0, 0, 0, 0.35),
+      0 0 6px rgba(15, 23, 42, 0.5);
+  }
+  50% {
+    transform: translate(-50%, -55%) scale(1.08);
+    box-shadow: 0 0 0 2px #f1f5f9, 0 6px 14px -2px rgba(0, 0, 0, 0.4),
+      0 0 10px rgba(15, 23, 42, 0.55);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 0 2px #f1f5f9, 0 4px 10px -2px rgba(0, 0, 0, 0.35),
+      0 0 6px rgba(15, 23, 42, 0.5);
+  }
+}
+
+/* Dot no longer used for horizontal variant (kept for potential future): */
+.scrollProgressDot {
+  display: none;
+}
+
+/* Optional reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .scrollProgressDot {
+    animation: none;
+  }
+}
