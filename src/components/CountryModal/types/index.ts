@@ -1,21 +1,22 @@
 export interface EyewearItem {
-  id: string;
-  name: string;
-  description?: string;
-  price?: number;
-  currency?: string;
-  imageUrl?: string;
-  popularityScore?: number;
-  frameColors?: string[];
+	id: string;
+	name: string;
+	description?: string;
+	price?: number;
+	currency?: string;
+	imageUrl?: string;
+	popularityScore?: number;
+	frameColors?: string[];
 }
 
 export interface Country {
-  id: string;
-  name: string;
+	id: string;
+	name: string;
+	flagUrl?: string;
 }
 
 export interface EyewearModalProps {
-  country: Country | null;
-  items: EyewearItem[];
-  onClose?: () => void;
+	country: Country | null;
+	items: EyewearItem[];
+	onClose?: () => void;
 }

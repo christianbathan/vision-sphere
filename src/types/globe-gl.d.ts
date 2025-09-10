@@ -1,4 +1,4 @@
 declare module "globe.gl" {
-  function createGlobe<T = any>(): (element: HTMLElement) => any;
-  export default createGlobe;
+	function createGlobe(): (element: HTMLElement) => unknown;
+	export default createGlobe;
 }
