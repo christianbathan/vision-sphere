@@ -155,7 +155,13 @@ const CountryModal: React.FC<EyewearModalProps> = ({
 					)}
 				</div>
 				<div className={styles.footerRow}>
-					<button className={styles.primaryButton}>Learn More</button>
+					<a
+						href={`/countries/${country.id}`}
+						className={styles.primaryButton}
+						tabIndex={0}
+					>
+						Learn More
+					</a>
 				</div>
 			</div>
 		</div>

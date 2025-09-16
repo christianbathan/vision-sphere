@@ -1,0 +1,27 @@
+// ...existing code from Team.module.scss...
+.features {
+	margin: 40px 0;
+}
+.cards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	justify-content: center;
+}
+.card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+	padding: 24px;
+	width: 260px;
+	text-align: center;
+}
+h3 {
+	margin-top: 16px;
+	color: #1a237e;
+}
+p {
+	color: #333;
+	margin-top: 8px;
+}
+// This file has been moved to the Features directory.

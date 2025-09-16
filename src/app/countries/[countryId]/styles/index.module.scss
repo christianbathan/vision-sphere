@@ -1,0 +1,329 @@
+:root {
+	--header-height: 100px;
+}
+
+body {
+	timeline-scope: --bannerContainer-view;
+	height: 100vh;
+}
+
+// HERO BANNER SECTION
+.bannerContainer {
+	height: 100vh;
+	view-timeline: --bannerContainer-view;
+	position: relative;
+	top: 0;
+	position: sticky;
+
+	.bannerWrapper {
+		height: 100vh;
+		.backVideo {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 0; /* keep background below hero content and below overlapping sections */
+			filter: blur(5px);
+		}
+		top: 0;
+	}
+
+	.content {
+		position: relative;
+		z-index: 1; /* allow following sections with higher z-index to overlap */
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		gap: 4rem;
+		padding: 30px;
+		max-width: 70%;
+		width: 100%;
+		margin: 0 auto;
+		height: 100vh;
+
+		.contentInner {
+			flex: 1 1 0;
+			text-align: left;
+		}
+
+		.contentIcon {
+			margin-bottom: 20px;
+		}
+
+		.heroCaption {
+			font-size: 1.5rem;
+			margin: 0;
+			font-weight: 500;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			color: #f0f0f0;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		}
+
+		.heroCountry {
+			font-size: 3.5rem;
+			margin: 10px 0 0 0;
+			font-weight: 700;
+			letter-spacing: 1px;
+			color: #ffffff;
+			text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+		}
+
+		.contentImage {
+			flex: 0 0 400px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			img {
+				width: 100%;
+				max-width: 4400px;
+				height: auto;
+				object-fit: contain;
+				border-radius: 1rem;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+				transition: max-width 0.2s, width 0.2s;
+			}
+		}
+	}
+}
+
+// FLASHCARDS SECTION
+.flashcards {
+	padding: 100px 60px;
+	position: relative;
+	background: #0d1117;
+	box-shadow: 0 2px 24px rgba(56, 189, 248, 1);
+	animation-name: changeBg;
+	animation-duration: 2s;
+	animation-fill-mode: both;
+	animation-timeline: view();
+
+	h2 {
+		text-align: center;
+		font-size: 3rem;
+		margin: 0 0 4rem;
+		animation: both titleAppear;
+		animation-timeline: view();
+	}
+}
+
+.cards {
+	--card-height: 50vh;
+	--card-gap: 20px;
+	--num: 4;
+	view-timeline: --cards-view;
+}
+
+.cardsGrid {
+	max-width: 1000px;
+	padding: 0 30px;
+	margin: 0 auto;
+	padding-bottom: calc(var(--num) * var(--card-gap));
+}
+
+.card {
+	height: var(--card-height);
+	position: sticky !important;
+	top: var(--header-height);
+	margin-top: calc(var(--i) * var(--card-gap));
+}
+
+/* Per-card variables */
+.cardsGrid .card:nth-child(1) {
+	--i: 1;
+	--r: 1deg;
+	--b: #ff4da6;
+}
+.cardsGrid .card:nth-child(2) {
+	--i: 2;
+	--r: -1deg;
+	--b: #48fbfb;
+}
+.cardsGrid .card:nth-child(3) {
+	--i: 3;
+	--r: -1deg;
+	--b: #e7e64d;
+}
+.cardsGrid .card:nth-child(4) {
+	--i: 4;
+	--r: 0deg;
+}
+
+.cardInner {
+	background: linear-gradient(135deg, #1b2735, #14202c);
+	backdrop-filter: blur(6px);
+	border: 2px solid #38bdf8cc;
+	height: var(--card-height);
+	box-shadow: 0 6px 14px -4px rgba(0, 0, 0, 0.55),
+		0 0 0 1px rgba(255, 255, 255, 0.04);
+	border-radius: 14px;
+	display: flex;
+	align-items: center;
+	padding: 30px;
+	transform-origin: 50% 0;
+	will-change: transform, filter, border-color;
+	view-timeline: --card-view;
+	animation: both serviceCard;
+	animation-timeline: --cards-view;
+	animation-range: exit-crossing calc(((var(--i) - 1) / var(--num)) * 100%)
+		exit-crossing calc((var(--i) / var(--num)) * 100%);
+
+	// Media within the card
+	img {
+		width: 80%;
+		object-fit: contain;
+		animation: both cardImage;
+		animation-timeline: --card-view;
+	}
+
+	h3 {
+		font-size: 2.4rem;
+		line-height: 1.4;
+		margin: 0 0 1rem;
+	}
+
+	p {
+		font-size: 1.1rem;
+		line-height: 1.6;
+		opacity: 0.8;
+		margin-bottom: 40px;
+	}
+}
+
+.left {
+	flex: 1;
+	width: 50%;
+}
+.right {
+	flex: 1;
+}
+
+// BRANDS SECTION
+.brands {
+	padding: 200px 60px;
+	background-image: linear-gradient(transparent, black, transparent);
+	position: relative;
+	z-index: 3; /* overlap the sticky hero */
+	overflow: hidden;
+	view-timeline: --brands-view;
+	height: 100vh;
+
+	.brandsTitle {
+		text-align: center;
+		font-size: 3rem;
+		margin: 0 0 4rem;
+		animation: both titleAppear;
+		animation-timeline: view();
+	}
+
+	.brandsContainer {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 40px;
+		padding: 20px 30px;
+		perspective: 1000px;
+		--num: 5;
+
+		.brandCard {
+			--j: var(--num) - var(--i);
+			width: 100%;
+			height: 100%;
+			padding: 30px;
+			text-align: center;
+			border: 1px solid rgb(219, 76, 235, 0.5);
+			background-color: rgb(50 50 50 / 23%);
+			transition: background-color 0.3s;
+			border-radius: 4px;
+			-webkit-box-reflect: below 5px
+				linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+			will-change: transform;
+			animation: both featuresCard;
+			animation-timeline: --brands-view;
+			animation-range: cover 20% cover 50%;
+
+			&:hover {
+				background-color: rgb(219, 76, 235, 0.4);
+			}
+
+			&:nth-child(1) {
+				--i: 1;
+			}
+			&:nth-child(2) {
+				--i: 2;
+			}
+			&:nth-child(3) {
+				--i: 3;
+			}
+			&:nth-child(4) {
+				--i: 4;
+			}
+			&:nth-child(5) {
+				--i: 5;
+			}
+
+			h3 {
+				margin: 0 0 1rem;
+				line-height: 1.6;
+				font-weight: 600;
+				font-size: 1.4rem;
+			}
+
+			p {
+				font-size: 1rem;
+				line-height: 1.6;
+				opacity: 0.7;
+			}
+
+			img {
+				width: 100%;
+				max-width: 100px;
+				margin-bottom: 1rem;
+			}
+		}
+	}
+}
+
+/* keyframes moved to the bottom */
+
+/* ===================== Animations ===================== */
+@keyframes changeBg {
+	to {
+		background-color: #020a14;
+	}
+}
+@keyframes featuresCard {
+	0% {
+		transform: translate3d(
+				calc(-100% * (var(--num) + var(--j)) - (var(--i) - 1) * 40px - 60px),
+				0,
+				calc(300px * (var(--j)))
+			)
+			rotateY(calc(45deg + 60deg * (var(--i) / var(--num))));
+	}
+	100% {
+		transform: translate3d(0, 0, 0) rotateY(0deg);
+	}
+}
+
+@keyframes cardImage {
+	0% {
+		transform: scale(0);
+	}
+	10% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(0.9);
+	}
+}
+
+@keyframes serviceCard {
+	to {
+		border-color: var(--b);
+		filter: blur(calc((var(--num) - var(--i)) * 1px));
+		transform: rotate(var(--r))
+			scale(calc(1 - (0.05 * (var(--num) - var(--i))))); /* 0.85,0.9,0.95,1 */
+	}
+}

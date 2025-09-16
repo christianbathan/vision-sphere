@@ -1,0 +1,62 @@
+.services {
+	margin: 48px 0;
+}
+.video {
+	width: 100%;
+	max-width: 900px;
+	margin: 0 auto 32px auto;
+}
+.bgVideo {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 12px;
+}
+.content {
+	text-align: center;
+}
+.cards {
+	margin-top: 32px;
+}
+.cardsGrid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	justify-content: center;
+}
+.card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+	padding: 24px;
+	width: 260px;
+}
+.cardInner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.left {
+	flex: 1;
+}
+.right {
+	margin-left: 16px;
+}
+h3 {
+	margin-top: 0;
+	color: #1a237e;
+}
+p {
+	color: #333;
+	margin-top: 8px;
+}
+button {
+	margin-top: 12px;
+	background: #3949ab;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 8px 16px;
+	cursor: pointer;
+}
+// ...existing code...

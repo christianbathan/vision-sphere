@@ -5,11 +5,40 @@ import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
 import CountryModal from "@/components/CountryModal";
 import { COUNTRY_PINS } from "@/constants/pins";
-import { COUNTRY_DATA } from "@/constants/data";
+import countryContent from "@/constants/country-content.json";
 
 import type { Pin } from "@/components/Globe/types";
 import type { EyewearModalProps } from "@/components/CountryModal/types";
-type CountryCode = keyof typeof COUNTRY_DATA.trending_eyewear;
+type TrendingItem = {
+	id: string;
+	name: string;
+	description?: string;
+	price?: number;
+	currency?: string;
+	imageUrl?: string;
+	popularityScore?: number;
+	frameColors?: string[];
+};
+type Flashcard = {
+	product: string;
+	blurb: string;
+	metrics: {
+		searchInterest: number;
+		marketShare: number;
+		avgPrice: number;
+		currency: string;
+	};
+	image: string;
+	url?: string;
+};
+type CountryJson = {
+	hero: { id: string; name: string };
+	flashcards: Flashcard[];
+	brands: string[];
+	trending?: { items: TrendingItem[] };
+};
+type CountryMap = Record<string, CountryJson>;
+type CountryCode = keyof typeof countryContent;
 
 const GlobeComponent = dynamic(() => import("@/components/Globe"), {
 	ssr: false,
@@ -65,8 +94,9 @@ const Home: React.FC = () => {
 							const country = pins.find((p) => p.id === pt.id);
 							if (country) {
 								const code = country.id as CountryCode;
-								const rawItems = COUNTRY_DATA.trending_eyewear[code] || [];
-								const items = rawItems.items.map((it) => ({
+								const raw = (countryContent as CountryMap)[code];
+								const trending = raw?.trending?.items ?? [];
+								const items = trending.map((it: TrendingItem) => ({
 									id: it.id,
 									name: it.name,
 									description: it.description,
