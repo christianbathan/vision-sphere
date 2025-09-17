@@ -1,40 +1,8 @@
 import styles from "./styles/index.module.scss";
 import Image from "next/image";
-import countryContent from "@/constants/country-content.json";
-import { notFound } from "next/navigation";
+import countryContent from "@/constants/country-content";
 
-type Metrics = {
-	searchInterest: number;
-	marketShare: number;
-	avgPrice: number;
-	currency: string;
-};
-type FlashcardItem = {
-	product: string;
-	blurb: string;
-	metrics: Metrics;
-	image: string;
-	url?: string;
-};
-type CountryContent = {
-	hero: { id: string; name: string };
-	flashcards: FlashcardItem[];
-};
-
-const BRAND_LINKS: Record<string, string> = {
-	VARILUX: "https://www.essilor.com/en/brands/varilux/",
-	CRIZAL: "https://www.essilor.com/en/brands/crizal/",
-	EYEZEN: "https://www.essilor.com/en/brands/eyezen/",
-	TRANSITIONS: "https://www.essilor.com/en/brands/transitions/",
-	STELLEST: "https://www.essilor.com/en/innovation/stellest-lens/",
-	XPERIO: "https://www.essilor.com/en/brands/xperio/",
-};
-function getBrandUrl(name: string): string {
-	const upper = name.toUpperCase();
-	for (const key of Object.keys(BRAND_LINKS))
-		if (upper.includes(key)) return BRAND_LINKS[key];
-	return "https://www.essilor.com/en/";
-}
+type CountryCode = "PH" | "SG" | "US" | "FR" | "IT";
 
 interface LearnMoreProps {
 	params: { countryId: string };
@@ -42,16 +10,9 @@ interface LearnMoreProps {
 
 export default function CountryLearnMorePage({ params }: LearnMoreProps) {
 	const countryId = params.countryId.toUpperCase();
-	// Read top-level brands and selected country content safely
-	const allBrands = (countryContent as { brands?: string[] }).brands ?? [];
-	const contentUnknown = (countryContent as Record<string, unknown>)[countryId];
-	if (!contentUnknown || typeof contentUnknown !== "object") {
-		return notFound();
-	}
-	const content = contentUnknown as CountryContent;
-	if (!content?.hero || !content?.flashcards) {
-		return notFound();
-	}
+	const allBrands = countryContent.brands;
+	const code = countryId as CountryCode;
+	const content = countryContent[code];
 
 	return (
 		<main>
@@ -100,20 +61,21 @@ export default function CountryLearnMorePage({ params }: LearnMoreProps) {
 
 					<div className={styles.cards}>
 						<div className={styles.cardsGrid}>
-							{content.flashcards.map((item: FlashcardItem, idx: number) => (
+							{content.items.map((item, idx: number) => (
 								<div className={styles.card} key={idx}>
 									<div className={styles.cardInner}>
 										<div className={styles.left}>
-											<h3>{item.product}</h3>
-											<p>{item.blurb}</p>
+											<h3>{item.name}</h3>
+											{item.description && <p>{item.description}</p>}
 											<p>
 												<strong>Signals:</strong> Interest{" "}
-												{item.metrics.searchInterest}% · Market{" "}
-												{item.metrics.marketShare}% · Avg Price{" "}
-												{item.metrics.avgPrice} {item.metrics.currency}
+												{item.metrics?.searchInterest ?? "—"}% · Market{" "}
+												{item.metrics?.marketShare ?? "—"}% · Avg Price{" "}
+												{item.metrics?.avgPrice ?? "—"}{" "}
+												{item.metrics?.currency ?? ""}
 											</p>
 											<a
-												href={item.url ?? getBrandUrl(item.product)}
+												href={item.url}
 												target="_blank"
 												rel="noopener noreferrer"
 											>
@@ -122,8 +84,8 @@ export default function CountryLearnMorePage({ params }: LearnMoreProps) {
 										</div>
 										<div className={styles.right}>
 											<Image
-												src={item.image}
-												alt={item.product}
+												src={item.imageUrl ?? "/Icons/sunglasses.svg"}
+												alt={item.name}
 												width={100}
 												height={100}
 											/>
@@ -140,17 +102,13 @@ export default function CountryLearnMorePage({ params }: LearnMoreProps) {
 				<h2 className={styles.brandsTitle}>Essilor Brands</h2>
 
 				<div className={styles.brandsContainer}>
-					{(allBrands as string[]).map((name: string, i: number) => (
+					{allBrands.map((brand, i: number) => (
 						<div className={styles.brandCard} key={i}>
-							<h3>{name}</h3>
+							<h3>{brand.name}</h3>
 							<p>
-								Explore {name} products available in {content.hero.name}.
+								Explore {brand.name} products available in {content.hero.name}.
 							</p>
-							<a
-								href={getBrandUrl(name)}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
+							<a href={brand.url} target="_blank" rel="noopener noreferrer">
 								Learn more on essilor.com
 							</a>
 						</div>

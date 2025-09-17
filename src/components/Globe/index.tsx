@@ -7,56 +7,54 @@ const DEFAULT_MARKER_SVG = `<svg viewBox="0 0 32 40" xmlns="http://www.w3.org/20
   <circle cx="16" cy="15" r="7" fill="#0d1117" />
 </svg>`;
 
-type GlobeInstance = ReturnType<ReturnType<typeof createGlobe>>;
+const GlobeComponent = ({
+	pins,
+	onPinClick,
+	backgroundColor = "#0d1117",
+}: GlobeProps) => {
+	const ref = useRef<HTMLDivElement | null>(null);
+	const globeInstance = useRef<any>(null);
 
-const GlobeComponent: React.FC<GlobeProps> = ({
-  pins,
-  onPinClick,
-  backgroundColor = "#0d1117",
-}) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const globeInstance = useRef<GlobeInstance | null>(null);
+	useEffect(() => {
+		if (!ref.current || globeInstance.current) return;
+		const visionGlobe = (globeInstance.current = createGlobe()(
+			ref.current
+		) as any);
 
-  useEffect(() => {
-    if (!ref.current || globeInstance.current) return;
+		visionGlobe
+			.globeImageUrl("//unpkg.com/three-globe/example/img/earth-night.jpg")
+			.backgroundColor(backgroundColor);
 
-    const visionGlobe = (globeInstance.current = createGlobe()(ref.current));
+		visionGlobe
+			.htmlElementsData(pins)
+			.htmlLat((d: Pin) => d.lat)
+			.htmlLng((d: Pin) => d.lng)
+			.htmlElement((d: Pin) => {
+				const wrapper = document.createElement("div");
+				wrapper.innerHTML = DEFAULT_MARKER_SVG;
+				wrapper.style.width = "25px";
+				wrapper.style.cursor = "pointer";
+				wrapper.style.pointerEvents = "auto";
+				wrapper.style.color = d.color;
+				wrapper.style.filter = "drop-shadow(0 0 4px rgba(255,255,255,0.45))";
+				wrapper.style.transition = "opacity 250ms";
+				wrapper.onclick = () => onPinClick(d);
+				return wrapper;
+			})
+			.htmlElementVisibilityModifier?.(
+				(wrapper: HTMLDivElement, isVisible: boolean) =>
+					(wrapper.style.opacity = isVisible ? "1" : "0")
+			);
 
-    visionGlobe
-      .globeImageUrl("//unpkg.com/three-globe/example/img/earth-night.jpg")
-      .backgroundColor(backgroundColor);
+		visionGlobe.controls().enableZoom = false;
+	}, [backgroundColor, onPinClick, pins]);
 
-    visionGlobe
-      .htmlElementsData(pins)
-      .htmlLat((d: Pin) => d.lat)
-      .htmlLng((d: Pin) => d.lng)
-      // .htmlAltitude(() => 0.06)
-      .htmlElement((d: Pin) => {
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = DEFAULT_MARKER_SVG;
-        wrapper.style.width = "25px";
-        wrapper.style.cursor = "pointer";
-        wrapper.style.pointerEvents = "auto";
-        wrapper.style.color = d.color;
-        wrapper.style.filter = "drop-shadow(0 0 4px rgba(255,255,255,0.45))";
-        wrapper.style.transition = "opacity 250ms";
-        wrapper.onclick = () => onPinClick(d);
-        return wrapper;
-      })
-      .htmlElementVisibilityModifier(
-        (wrapper: HTMLDivElement, isVisible: boolean) =>
-          (wrapper.style.opacity = isVisible ? "1" : "0")
-      );
+	useEffect(() => {
+		if (!globeInstance.current) return;
+		globeInstance.current.htmlElementsData?.(pins);
+	}, [pins]);
 
-    visionGlobe.controls().enableZoom = false;
-  }, [backgroundColor, onPinClick, pins]);
-
-  useEffect(() => {
-    if (!globeInstance.current) return;
-    globeInstance.current.htmlElementsData?.(pins);
-  }, [pins]);
-
-  return <div ref={ref} style={{ width: "100%", height: "100%" }} />;
+	return <div ref={ref} style={{ width: "100%", height: "100%" }} />;
 };
 
 export default GlobeComponent;

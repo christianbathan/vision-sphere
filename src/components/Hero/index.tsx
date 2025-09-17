@@ -5,7 +5,7 @@ import Image from "next/image";
 import styles from "./styles/index.module.scss";
 import ScrollAdvanceButton from "@/components/ScrollAdvanceButton";
 
-const Hero: React.FC = () => {
+const Hero = () => {
 	const sectionRef = useRef<HTMLElement | null>(null);
 	const iconRef = useRef<HTMLDivElement | null>(null);
 	const imgRef = useRef<HTMLImageElement | null>(null);

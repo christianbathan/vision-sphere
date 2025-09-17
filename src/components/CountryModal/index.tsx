@@ -4,11 +4,7 @@ import React, { useRef, useEffect } from "react";
 import styles from "./styles/index.module.scss";
 import type { EyewearModalProps } from "./types";
 
-const CountryModal: React.FC<EyewearModalProps> = ({
-	country,
-	items,
-	onClose,
-}) => {
+const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 

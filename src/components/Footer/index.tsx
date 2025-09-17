@@ -1,25 +1,23 @@
 import React from "react";
 import styles from "./styles/index.module.scss";
 
-const Footer: React.FC = () => {
-	const year = new Date().getFullYear();
+const Footer = () => {
 	return (
-		<footer className={styles.footer} role="contentinfo">
+		<section className={styles.footer}>
 			<div className={styles.inner}>
 				<span className={styles.brand}>VisionSphere</span>
 				<span className={styles.credit}>
-					© {year} • Built with Globe.GL & Next.js
+					© 2025 • Built with Globe.gl & Next.js
 				</span>
 				<a
 					href="https://www.essilor.com/"
 					target="_blank"
-					rel="noopener noreferrer"
 					className={styles.link}
 				>
 					Essilor.com
 				</a>
 			</div>
-		</footer>
+		</section>
 	);
 };
 

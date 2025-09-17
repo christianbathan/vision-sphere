@@ -81,7 +81,7 @@ body {
 				max-width: 4400px;
 				height: auto;
 				object-fit: contain;
-				border-radius: 1rem;
+				border-radius: 18px;
 				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 				transition: max-width 0.2s, width 0.2s;
 			}
@@ -158,7 +158,7 @@ body {
 	height: var(--card-height);
 	box-shadow: 0 6px 14px -4px rgba(0, 0, 0, 0.55),
 		0 0 0 1px rgba(255, 255, 255, 0.04);
-	border-radius: 14px;
+	border-radius: 18px;
 	display: flex;
 	align-items: center;
 	padding: 30px;
@@ -203,7 +203,7 @@ body {
 // BRANDS SECTION
 .brands {
 	padding: 200px 60px;
-	background-image: linear-gradient(transparent, black, transparent);
+	background: #0d1117;
 	position: relative;
 	z-index: 3; /* overlap the sticky hero */
 	overflow: hidden;
@@ -235,9 +235,9 @@ body {
 			border: 1px solid rgb(219, 76, 235, 0.5);
 			background-color: rgb(50 50 50 / 23%);
 			transition: background-color 0.3s;
-			border-radius: 4px;
-			-webkit-box-reflect: below 5px
-				linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+			border-radius: 18px;
+			// -webkit-box-reflect: below 5px
+			// 	linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
 			will-change: transform;
 			animation: both featuresCard;
 			animation-timeline: --brands-view;
