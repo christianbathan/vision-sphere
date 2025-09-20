@@ -5,8 +5,11 @@ export interface EyewearItem {
 	price?: number;
 	currency?: string;
 	imageUrl?: string;
-	popularityScore?: number;
-	frameColors?: string[];
+	metrics?: {
+		searchInterest?: number;
+		price?: number;
+		currency?: string;
+	};
 }
 
 export interface Country {

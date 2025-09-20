@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import Image from "next/image";
 import styles from "./styles/index.module.scss";
 import type { EyewearModalProps } from "./types";
+import ProgressAnimator from "@/components/ProgressAnimator";
 
 const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 	const ref = useRef<HTMLDivElement | null>(null);
@@ -58,7 +60,8 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 				aria-labelledby="country-modal-title"
 				onClick={(e) => e.stopPropagation()}
 			>
-				{/* <div className={styles.accentBar} aria-hidden="true" /> */}
+				{/* shared progress animator for width/scale animations */}
+				<ProgressAnimator />
 				<button
 					ref={closeBtnRef}
 					type="button"
@@ -66,20 +69,25 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 					onClick={handleClose}
 					aria-label="Close modal"
 				>
-					<span className={styles.closeIcon} aria-hidden="true" />
+					<Image
+						src="/Icons/close.png"
+						alt=""
+						aria-hidden="true"
+						width={18}
+						height={18}
+						className={styles.closeIconImg}
+					/>
 				</button>
 
 				<div className={styles.headerRow}>
 					<div className={styles.countryBadge} aria-hidden="true">
-						<div className={styles.countryBadgeInner}>
-							<img
-								src={country.flagUrl}
-								alt={`${country.name} flag`}
-								width={32}
-								height={24}
-								className={styles.flagIcon}
-							/>
-						</div>
+						<Image
+							src={country.flagUrl || "/Icons/flags/us.svg"}
+							alt={`${country.name} flag`}
+							width={90}
+							height={60}
+							className={styles.flagIcon}
+						/>
 					</div>
 					<div className={styles.titleBlock}>
 						<h3 id="country-modal-title" className={styles.title}>
@@ -88,15 +96,16 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 						<p className={styles.subtitle}>Top eyewear picks & trends</p>
 					</div>
 				</div>
+				<hr className={styles.divider} />
 				<div className={styles.body}>
 					{items.length > 0 ? (
 						<div className={styles.itemList}>
 							{items.map((item, i) => {
-								const priceStr = item.price
+								const priceStr = item.metrics?.price
 									? new Intl.NumberFormat(undefined, {
 											style: "currency",
-											currency: item.currency || "USD",
-									  }).format(item.price)
+											currency: item.metrics?.currency || "USD",
+									  }).format(item.metrics?.price)
 									: null;
 								return (
 									<div
@@ -106,17 +115,16 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 									>
 										<div
 											className={styles.itemThumb}
-											style={
-												item.imageUrl
-													? { backgroundImage: `url(${item.imageUrl})` }
-													: undefined
-											}
 											aria-label={item.name}
 											role="img"
 										>
-											{!item.imageUrl && (
-												<span className={styles.thumbFallback}>👓</span>
-											)}
+											<Image
+												src={item.imageUrl || "/Images/about-us.jpg"}
+												alt={item.name}
+												fill
+												sizes="(max-width: 540px) 90px, 120px"
+												className={styles.itemImg}
+											/>
 										</div>
 										<div className={styles.itemBody}>
 											<div className={styles.itemHeaderRow}>
@@ -128,16 +136,24 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 											{item.description && (
 												<p className={styles.itemDesc}>{item.description}</p>
 											)}
-											<div className={styles.itemMeta}>
-												{item.frameColors?.slice(0, 4).map((c) => (
-													<span key={c} className={styles.colorTag} title={c}>
-														<span
-															style={{ background: c }}
-															className={styles.colorSwatch}
-														/>
-														{c}
-													</span>
-												))}
+											<div className={styles.popularityRow}>
+												<div
+													className={styles.popularityBar}
+													role="progressbar"
+													aria-valuemin={0}
+													aria-valuemax={100}
+													aria-valuenow={item.metrics?.searchInterest}
+													aria-label="Popularity"
+												>
+													<span
+														className={styles.popularityFill}
+														data-progress="width"
+														data-p={item.metrics?.searchInterest}
+													/>
+												</div>
+												<span className={styles.popularityValue}>
+													{item.metrics?.searchInterest}%
+												</span>
 											</div>
 										</div>
 									</div>
@@ -150,15 +166,18 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
 						</div>
 					)}
 				</div>
-				<div className={styles.footerRow}>
-					<a
-						href={`/countries/${country.id}`}
-						className={styles.primaryButton}
-						tabIndex={0}
-					>
-						Learn More
-					</a>
-				</div>
+
+				{items.length > 0 ? (
+					<div className={styles.footerRow}>
+						<a
+							href={`/countries/${country.id}`}
+							className={styles.primaryButton}
+							tabIndex={0}
+						>
+							Learn More
+						</a>
+					</div>
+				) : null}
 			</div>
 		</div>
 	);

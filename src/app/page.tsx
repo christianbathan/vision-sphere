@@ -53,7 +53,7 @@ const Home: React.FC = () => {
 				style={{
 					minHeight: "100vh",
 					position: "relative",
-					background: "#0d1117",
+					background: "var(--bg)",
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
@@ -76,7 +76,7 @@ const Home: React.FC = () => {
 					<div
 						style={{
 							textAlign: "center",
-							color: "#444",
+							color: "var(--muted)",
 							fontSize: "1.1rem",
 							opacity: 0.8,
 							padding: "1rem",

@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import createGlobe from "globe.gl";
-import type { Pin, GlobeProps } from "./types";
+import type { Pin, GlobeProps, GlobeInstance } from "./types";
 
 const DEFAULT_MARKER_SVG = `<svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
-  <path fill="currentColor" d="M16 0c8.284 0 15 6.492 15 14.5C31 26.2 16 40 16 40S1 26.3 1 14.5C1 6.492 7.716 0 16 0Z"/>
-  <circle cx="16" cy="15" r="7" fill="#0d1117" />
+	<path fill="currentColor" d="M16 0c8.284 0 15 6.492 15 14.5C31 26.2 16 40 16 40S1 26.3 1 14.5C1 6.492 7.716 0 16 0Z"/>
+	<circle cx="16" cy="15" r="7" fill="#222831" />
 </svg>`;
 
 const GlobeComponent = ({
@@ -13,13 +13,13 @@ const GlobeComponent = ({
 	backgroundColor = "#0d1117",
 }: GlobeProps) => {
 	const ref = useRef<HTMLDivElement | null>(null);
-	const globeInstance = useRef<any>(null);
+	const globeInstance = useRef<GlobeInstance | null>(null);
 
 	useEffect(() => {
 		if (!ref.current || globeInstance.current) return;
 		const visionGlobe = (globeInstance.current = createGlobe()(
 			ref.current
-		) as any);
+		) as unknown as GlobeInstance);
 
 		visionGlobe
 			.globeImageUrl("//unpkg.com/three-globe/example/img/earth-night.jpg")
