@@ -1,0 +1,26 @@
+.main {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &.fit {
+    width: fit-content;
+  }
+
+  .ripple {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+
+    width: 100px;
+    height: 100px;
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 0;
+    border: none;
+  }
+}
