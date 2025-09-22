@@ -1,3 +1,4 @@
+/* ===================== THEME VARS ===================== */
 :root {
 	--bg-color-1: #0f172a;
 	--bg-color-2: #1e293b;
@@ -6,11 +7,16 @@
 }
 
 .hero {
-	min-height: 100vh;
+	position: relative;
+	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	min-height: 100vh;
+	padding: 2rem;
+	color: var(--text);
+	text-align: center;
 	background: linear-gradient(
 		140deg,
 		var(--bg-color-1),
@@ -20,11 +26,6 @@
 	);
 	background-size: 180% 180%;
 	animation: heroGradient 16s linear infinite;
-	color: var(--text);
-	padding: 2rem;
-	text-align: center;
-	position: relative;
-	overflow: hidden;
 
 	.heroContents {
 		display: flex;
@@ -36,8 +37,8 @@
 
 	.glow {
 		position: absolute;
-		width: 600px;
-		height: 600px;
+		top: -160px;
+		left: -170px;
 		background: radial-gradient(
 				circle at 30% 30%,
 				rgba(238, 238, 238, 0.09),
@@ -48,13 +49,87 @@
 				color-mix(in srgb, var(--accent) 22%, transparent),
 				transparent 70%
 			);
-		mix-blend-mode: screen;
-		border-radius: 50%;
-		top: -160px;
-		left: -170px;
-		z-index: 0;
 		opacity: 0.8;
+		z-index: 0;
+		width: 600px;
+		height: 600px;
+		border-radius: 50%;
+		mix-blend-mode: screen;
 		animation: glowDrift 20s ease-in-out infinite;
+	}
+
+	/* ===================== DECORATIVE ELEMENTS ===================== */
+	.deco {
+		position: absolute;
+		z-index: 0;
+		opacity: 0; /* animated in via WA */
+		pointer-events: none;
+		will-change: transform;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		filter: saturate(0.9) brightness(1.1);
+	}
+
+	.chartAccent {
+		left: 50%;
+		bottom: 20px;
+		transform: translateX(-50%);
+		width: min(900px, 90vw);
+		height: 360px;
+		background-image: url("/Images/elements/Chart 06.png");
+		background-position: bottom center;
+		background-size: contain;
+		opacity: 0.12;
+		animation: ringDrift 12s ease-in-out infinite;
+	}
+
+	.ringSmall {
+		top: 12%;
+		left: -60px;
+		width: 220px;
+		height: 220px;
+		transform-origin: 50% 50%;
+	}
+
+	.ringLarge {
+		bottom: 8%;
+		right: -90px;
+		width: 580px;
+		height: 580px;
+		transform-origin: 50% 50%;
+	}
+
+	.ringSmallInner,
+	.ringLargeInner {
+		position: absolute;
+		inset: 0;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		will-change: transform;
+	}
+
+	.ringSmallInner {
+		background-image: url("/Images/elements/Circular element 01.png");
+	}
+
+	.ringLargeInner {
+		background-image: url("/Images/elements/Circular element 29.png");
+	}
+
+	@media (max-width: 720px) {
+		.ringSmall {
+			width: 160px;
+			height: 160px;
+			left: -40px;
+		}
+		.ringLarge {
+			width: 260px;
+			height: 260px;
+			right: -70px;
+			bottom: 4%;
+		}
 	}
 
 	h1 {
@@ -112,9 +187,9 @@
 	}
 
 	.sunglassesImage {
-		object-fit: contain;
 		position: absolute !important;
 		inset: 0;
+		object-fit: contain;
 		filter: brightness(0.9) contrast(1.05);
 	}
 
@@ -132,7 +207,7 @@
 	}
 }
 
-// ANIMATIONS
+/* ===================== ANIMATIONS ===================== */
 
 @keyframes bounce {
 	0%,
@@ -199,5 +274,50 @@
 	}
 	50% {
 		transform: translateY(10px);
+	}
+}
+
+@keyframes slowSpin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes slowSpinReverse {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes ringDrift {
+	0% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-6px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+/* ===================== REDUCED MOTION ===================== */
+@media (prefers-reduced-motion: reduce) {
+	.hero {
+		animation: none !important;
+	}
+	.hero .glow,
+	.hero .iconWrap,
+	.hero .sunglassesSvg,
+	.hero .scrollDown,
+	.hero .deco,
+	.hero .chartAccent {
+		animation: none !important;
 	}
 }

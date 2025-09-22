@@ -12,13 +12,15 @@ const Hero = () => {
 	const titleRef = useRef<HTMLHeadingElement | null>(null);
 	const textRef = useRef<HTMLParagraphElement | null>(null);
 	const arrowRef = useRef<HTMLDivElement | null>(null);
+	const ringSmallRef = useRef<HTMLDivElement | null>(null);
+	const ringLargeRef = useRef<HTMLDivElement | null>(null);
+	const chartRef = useRef<HTMLDivElement | null>(null);
+
+	// New refs for inner rotators to avoid transform conflicts
+	const ringSmallInnerRef = useRef<HTMLDivElement | null>(null);
+	const ringLargeInnerRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		const prefersReduced = window.matchMedia(
-			"(prefers-reduced-motion: reduce)"
-		).matches;
-		if (prefersReduced) return; // Respect user preference
-
 		const animations: Animation[] = [];
 
 		if (iconRef.current) {
@@ -106,6 +108,59 @@ const Hero = () => {
 			animations.push(anim);
 		}
 
+		// Coordinate entrance for decorative elements
+		const decoFadeKeyframes: Keyframe[] = [
+			{ opacity: 0, transform: "translateY(10px)" },
+			{ opacity: 0.18, transform: "translateY(0)" },
+		];
+		const decoTiming: KeyframeAnimationOptions = {
+			duration: 700,
+			easing: "cubic-bezier(.33,.66,.4,1)",
+			fill: "forwards",
+			delay: 260, // starts after title/text begin
+		};
+
+		if (ringSmallRef.current) {
+			animations.push(
+				ringSmallRef.current.animate(decoFadeKeyframes, decoTiming)
+			);
+		}
+		if (ringLargeRef.current) {
+			animations.push(
+				ringLargeRef.current.animate(decoFadeKeyframes, decoTiming)
+			);
+		}
+		if (chartRef.current) {
+			const chartTiming: KeyframeAnimationOptions = {
+				...decoTiming,
+				delay: 320,
+			};
+			// Slightly lower final opacity for chart for subtlety
+			const chartKeyframes: Keyframe[] = [
+				{ opacity: 0, transform: "translateY(12px)" },
+				{ opacity: 0.12, transform: "translateY(0)" },
+			];
+			animations.push(chartRef.current.animate(chartKeyframes, chartTiming));
+		}
+
+		// Add endless rotations on inner elements to avoid transform override with CSS drift
+		if (ringSmallInnerRef.current) {
+			animations.push(
+				ringSmallInnerRef.current.animate(
+					[{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
+					{ duration: 60000, iterations: Infinity, easing: "linear" }
+				)
+			);
+		}
+		if (ringLargeInnerRef.current) {
+			animations.push(
+				ringLargeInnerRef.current.animate(
+					[{ transform: "rotate(0deg)" }, { transform: "rotate(-360deg)" }],
+					{ duration: 80000, iterations: Infinity, easing: "linear" }
+				)
+			);
+		}
+
 		return () => animations.forEach((a) => a.cancel());
 	}, []);
 
@@ -116,6 +171,26 @@ const Hero = () => {
 			style={{ position: "relative" }}
 		>
 			<div className={styles.glow} />
+			{/* Decorative, animated background rings */}
+			<div
+				ref={ringSmallRef}
+				className={`${styles.deco} ${styles.ringSmall}`}
+				aria-hidden="true"
+			>
+				<div ref={ringSmallInnerRef} className={styles.ringSmallInner} />
+			</div>
+			<div
+				ref={ringLargeRef}
+				className={`${styles.deco} ${styles.ringLarge}`}
+				aria-hidden="true"
+			>
+				<div ref={ringLargeInnerRef} className={styles.ringLargeInner} />
+			</div>
+			<div
+				ref={chartRef}
+				className={`${styles.deco} ${styles.chartAccent}`}
+				aria-hidden="true"
+			/>
 			<div ref={iconRef} className={styles.iconWrap} aria-hidden="true">
 				<div ref={imgRef} style={{ width: "100%", height: "100%" }}>
 					<Image
