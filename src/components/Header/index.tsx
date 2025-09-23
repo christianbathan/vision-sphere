@@ -23,23 +23,8 @@ const Header = () => {
 
       if (Math.abs(newRatio - lastRatio) < 0.001) return;
 
-      element.animate(
-        [
-          {
-            transform: `scaleX(${lastRatio})`,
-            opacity: lastRatio > 0.01 ? 1 : 0.6,
-          },
-          {
-            transform: `scaleX(${newRatio})`,
-            opacity: newRatio > 0.01 ? 1 : 0.6,
-          },
-        ],
-        {
-          duration: 150,
-          easing: "ease-out",
-          fill: "forwards",
-        }
-      );
+      element.style.transform = `scaleX(${newRatio})`;
+      element.style.opacity = newRatio > 0.01 ? "1" : "0.6";
 
       lastRatio = newRatio;
     };
