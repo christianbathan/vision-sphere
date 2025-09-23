@@ -2,79 +2,60 @@
 
 import { useEffect } from "react";
 
-export default function ProgressAnimator() {
-	useEffect(() => {
-		const elements = Array.from(
-			document.querySelectorAll<HTMLElement>("[data-progress]")
-		);
+const ProgressAnimator = () => {
+  useEffect(() => {
+    const progressElements = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-progress]")
+    );
+    if (progressElements.length === 0) return;
 
-		if (elements.length === 0) return;
+    // Set progress elements to zero
+    progressElements.forEach((element) => {
+      if (element.dataset.progress === "scale") {
+        element.style.setProperty("--p", "0");
+      } else {
+        element.style.width = "0%";
+      }
+    });
 
-		const supportsIntersectionObserver =
-			typeof window !== "undefined" && "IntersectionObserver" in window;
+    const handleIntersections = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        const element = target as HTMLElement;
+        const progressValue = Math.min(
+          100,
+          Math.max(0, Number(element.dataset.p) || 0)
+        );
 
-		// Initialize elements to 0%
-		elements.forEach((el) => {
-			const type = el.dataset.progress;
-			if (type === "scale") {
-				el.style.setProperty("--p", "0");
-			} else if (type === "width") {
-				el.style.width = "0%";
-			}
-		});
+        if (isIntersecting) {
+          void element.offsetWidth;
+          if (element.dataset.progress === "scale") {
+            element.style.setProperty("--p", String(progressValue / 100));
+          } else {
+            element.style.width = "0%";
+            void element.offsetWidth;
+            element.style.width = `${progressValue}%`;
+          }
+        } else {
+          // Reset when not in view
+          if (element.dataset.progress === "scale") {
+            element.style.setProperty("--p", "0");
+          } else {
+            element.style.width = "0%";
+          }
+        }
+      });
+    };
 
-		// Fallback for unsupported browsers
-		if (!supportsIntersectionObserver) {
-			elements.forEach((el) => {
-				const progress = Math.max(0, Math.min(100, Number(el.dataset.p || 0)));
-				const type = el.dataset.progress;
-				if (type === "scale") {
-					el.style.setProperty("--p", String(progress / 100));
-				} else if (type === "width") {
-					el.style.width = `${progress}%`;
-				}
-			});
-			return;
-		}
+    const observer = new IntersectionObserver(handleIntersections, {
+      threshold: 0.4,
+    });
 
-		// Use IntersectionObserver to animate on scroll
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					const el = entry.target as HTMLElement;
-					const progress = Math.max(
-						0,
-						Math.min(100, Number(el.dataset.p || 0))
-					);
-					const type = el.dataset.progress;
+    progressElements.forEach((element) => observer.observe(element));
 
-					if (entry.isIntersecting) {
-						// Animate to target value
-						void el.offsetWidth; // force reflow
-						if (type === "scale") {
-							el.style.setProperty("--p", String(progress / 100));
-						} else if (type === "width") {
-							el.style.width = "0%"; // reset
-							void el.offsetWidth;
-							el.style.width = `${progress}%`;
-						}
-					} else {
-						// Reset when out of view
-						if (type === "scale") {
-							el.style.setProperty("--p", "0");
-						} else if (type === "width") {
-							el.style.width = "0%";
-						}
-					}
-				});
-			},
-			{ threshold: 0.4 }
-		);
+    return () => observer.disconnect();
+  }, []);
 
-		elements.forEach((el) => observer.observe(el));
+  return null;
+};
 
-		return () => observer.disconnect();
-	}, []);
-
-	return null;
-}
+export default ProgressAnimator;

@@ -3,14 +3,6 @@
   display: inline-block;
   overflow: hidden;
 
-  &.fullWidth {
-    width: 100%;
-  }
-
-  &.fit {
-    width: fit-content;
-  }
-
   .ripple {
     position: absolute;
     transform: translate(-50%, -50%);

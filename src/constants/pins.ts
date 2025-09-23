@@ -1,50 +1,42 @@
-// Pastel palette chosen for good contrast on dark backgrounds (#0d1117) while remaining soft.
-// You can tweak or extend this palette as needed.
-// Reference shades sourced from common pastel design sets.
-// Pink:    #FFB3BA
-// Blue:    #A7C7E7
-// Green:   #BEECC2
-// Yellow:  #FFF5B7
-// Purple:  #D9C2F0
 export const COUNTRY_PINS = [
-	{
-		id: "PH",
-		lat: 13.41,
-		lng: 122.56,
-		name: "Philippines",
-		color: "#FFB3BA",
-		flagUrl: "/Icons/flags/ph.svg",
-	},
-	{
-		id: "SG",
-		lat: 1.35,
-		lng: 103.82,
-		name: "Singapore",
-		color: "#A7C7E7",
-		flagUrl: "/Icons/flags/sg.svg",
-	},
-	{
-		id: "US",
-		lat: 38.9,
-		lng: -77.0,
-		name: "United States",
-		color: "#BEECC2",
-		flagUrl: "/Icons/flags/us.svg",
-	},
-	{
-		id: "FR",
-		lat: 48.8,
-		lng: 2.3,
-		name: "France",
-		color: "#FFF5B7",
-		flagUrl: "/Icons/flags/fr.svg",
-	},
-	{
-		id: "IT",
-		lat: 41.9,
-		lng: 12.6,
-		name: "Italy",
-		color: "#D9C2F0",
-		flagUrl: "/Icons/flags/it.svg",
-	},
+  {
+    id: "PH",
+    lat: 13.41,
+    lng: 122.56,
+    name: "Philippines",
+    color: "#FFB3BA",
+    flagUrl: "/Icons/flags/ph.svg",
+  },
+  {
+    id: "SG",
+    lat: 1.35,
+    lng: 103.82,
+    name: "Singapore",
+    color: "#A7C7E7",
+    flagUrl: "/Icons/flags/sg.svg",
+  },
+  {
+    id: "US",
+    lat: 38.9,
+    lng: -77.0,
+    name: "United States",
+    color: "#BEECC2",
+    flagUrl: "/Icons/flags/us.svg",
+  },
+  {
+    id: "FR",
+    lat: 48.8,
+    lng: 2.3,
+    name: "France",
+    color: "#FFF5B7",
+    flagUrl: "/Icons/flags/fr.svg",
+  },
+  {
+    id: "IT",
+    lat: 41.9,
+    lng: 12.6,
+    name: "Italy",
+    color: "#D9C2F0",
+    flagUrl: "/Icons/flags/it.svg",
+  },
 ];

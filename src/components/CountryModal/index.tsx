@@ -8,40 +8,31 @@ import ProgressAnimator from "@/components/ProgressAnimator";
 import Ripple from "../Ripple/Ripple";
 
 const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!country) return;
-    ref.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
+
+    modalRef.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
       duration: 300,
       fill: "forwards",
     });
-    // Focus the close button for accessibility
-    closeBtnRef.current?.focus();
   }, [country]);
 
-  // Close on Escape key
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        handleClose();
-      }
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  });
-
   const handleClose = () => {
-    const animation = ref.current?.animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 200,
-      fill: "forwards",
-    });
+    const animation = modalRef.current?.animate(
+      [{ opacity: 1 }, { opacity: 0 }],
+      {
+        duration: 200,
+        fill: "forwards",
+      }
+    );
+
     if (animation) {
-      animation.onfinish = () => {
-        if (onClose) onClose();
-      };
+      animation.onfinish = onClose ?? null;
+    } else {
+      onClose?.();
     }
   };
 
@@ -55,16 +46,16 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
     >
       <div
         className={styles.modal}
-        ref={ref}
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="country-modal-title"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* shared progress animator for width/scale animations */}
         <ProgressAnimator />
+
         <button
-          ref={closeBtnRef}
+          ref={closeButtonRef}
           type="button"
           className={styles.closeButton}
           onClick={handleClose}
@@ -97,63 +88,72 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
             <p className={styles.subtitle}>Top eyewear picks & trends</p>
           </div>
         </div>
+
         <hr className={styles.divider} />
+
         <div className={styles.body}>
           {items.length > 0 ? (
             <div className={styles.itemList}>
               {items.map((item, i) => {
-                const priceStr = item.metrics?.price
+                const { name, imageUrl, description, id, metrics } = item;
+                const price = metrics?.price
                   ? new Intl.NumberFormat(undefined, {
                       style: "currency",
-                      currency: item.metrics?.currency || "USD",
-                    }).format(item.metrics?.price)
+                      currency: metrics.currency || "USD",
+                    }).format(metrics.price)
                   : null;
+
+                const interest = metrics?.searchInterest ?? 0;
+
                 return (
                   <div
-                    key={item.id}
+                    key={id}
                     className={`${styles.itemCard} ${styles.itemCardEnter}`}
                     style={{ animationDelay: `${i * 55}ms` }}
                   >
                     <div
                       className={styles.itemThumb}
-                      aria-label={item.name}
+                      aria-label={name}
                       role="img"
                     >
                       <Image
-                        src={item.imageUrl || "/Images/about-us.jpg"}
-                        alt={item.name}
+                        src={imageUrl || "/Images/about-us.jpg"}
+                        alt={name}
                         fill
                         sizes="(max-width: 540px) 90px, 120px"
                         className={styles.itemImg}
                       />
                     </div>
+
                     <div className={styles.itemBody}>
                       <div className={styles.itemHeaderRow}>
-                        <strong className={styles.itemName}>{item.name}</strong>
-                        {priceStr && (
-                          <span className={styles.itemPrice}>{priceStr}</span>
+                        <strong className={styles.itemName}>{name}</strong>
+                        {price && (
+                          <span className={styles.itemPrice}>{price}</span>
                         )}
                       </div>
-                      {item.description && (
-                        <p className={styles.itemDesc}>{item.description}</p>
+
+                      {description && (
+                        <p className={styles.itemDesc}>{description}</p>
                       )}
+
                       <div className={styles.popularityRow}>
                         <div
                           className={styles.popularityBar}
                           role="progressbar"
                           aria-valuemin={0}
                           aria-valuemax={100}
-                          aria-valuenow={item.metrics?.searchInterest}
+                          aria-valuenow={interest}
                           aria-label="Popularity"
                         >
                           <span
                             className={styles.popularityFill}
                             data-progress="width"
-                            data-p={item.metrics?.searchInterest}
+                            data-p={interest}
                           />
                         </div>
                         <span className={styles.popularityValue}>
-                          {item.metrics?.searchInterest}%
+                          {interest}%
                         </span>
                       </div>
                     </div>
@@ -168,16 +168,9 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
           )}
         </div>
 
-        {items.length > 0 ? (
+        {items.length > 0 && (
           <div className={styles.footerRow}>
-            <Ripple
-              className={styles.rippleWrapper}
-              duration={0.3}
-              opacity={0.25}
-              size={4}
-              color={"rgba(255,255,255,0.6)"}
-              centerOnly
-            >
+            <Ripple className={styles.rippleWrapper}>
               <a
                 href={`/countries/${country.id}`}
                 className={styles.primaryButton}
@@ -187,7 +180,7 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
               </a>
             </Ripple>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );

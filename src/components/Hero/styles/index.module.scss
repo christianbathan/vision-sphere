@@ -1,323 +1,358 @@
-/* ===================== THEME VARS ===================== */
 :root {
-	--bg-color-1: #0f172a;
-	--bg-color-2: #1e293b;
-	--bg-color-3: #0d1117;
-	--bg-color-4: #0f172a;
+  --bg-color-1: #0f172a;
+  --bg-color-2: #1e293b;
+  --bg-color-3: #0d1117;
+  --bg-color-4: #0f172a;
 }
 
 .hero {
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	padding: 2rem;
-	color: var(--text);
-	text-align: center;
-	background: linear-gradient(
-		140deg,
-		var(--bg-color-1),
-		var(--bg-color-2),
-		var(--bg-color-3),
-		var(--bg-color-4)
-	);
-	background-size: 180% 180%;
-	animation: heroGradient 16s linear infinite;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  color: var(--text);
+  text-align: center;
+  background: linear-gradient(
+    140deg,
+    var(--bg-color-1),
+    var(--bg-color-2),
+    var(--bg-color-3),
+    var(--bg-color-4)
+  );
+  background-size: 180% 180%;
+  animation: heroGradient 16s linear infinite;
 
-	.heroContents {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		margin-bottom: 70px;
-	}
+  .heroContents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+  }
 
-	.glow {
-		position: absolute;
-		top: -160px;
-		left: -170px;
-		background: radial-gradient(
-				circle at 30% 30%,
-				rgba(238, 238, 238, 0.09),
-				transparent 65%
-			),
-			radial-gradient(
-				circle at 70% 60%,
-				color-mix(in srgb, var(--accent) 22%, transparent),
-				transparent 70%
-			);
-		opacity: 0.8;
-		z-index: 0;
-		width: 600px;
-		height: 600px;
-		border-radius: 50%;
-		mix-blend-mode: screen;
-		animation: glowDrift 20s ease-in-out infinite;
-	}
+  .glow {
+    position: absolute;
+    top: -160px;
+    left: -170px;
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgba(238, 238, 238, 0.09),
+        transparent 65%
+      ),
+      radial-gradient(
+        circle at 70% 60%,
+        color-mix(in srgb, var(--accent) 22%, transparent),
+        transparent 70%
+      );
+    opacity: 0.8;
+    z-index: 0;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    animation: glowDrift 20s ease-in-out infinite;
+  }
 
-	/* ===================== DECORATIVE ELEMENTS ===================== */
-	.deco {
-		position: absolute;
-		z-index: 0;
-		opacity: 0; /* animated in via WA */
-		pointer-events: none;
-		will-change: transform;
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center;
-		filter: saturate(0.9) brightness(1.1);
-	}
+  .deco {
+    position: absolute;
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    filter: saturate(0.9) brightness(1.1);
+  }
 
-	.chartAccent {
-		left: 50%;
-		bottom: 20px;
-		transform: translateX(-50%);
-		width: min(900px, 90vw);
-		height: 360px;
-		background-image: url("/Images/elements/Chart 06.png");
-		background-position: bottom center;
-		background-size: contain;
-		opacity: 0.12;
-		animation: ringDrift 12s ease-in-out infinite;
-	}
+  .chartAccent {
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    width: min(900px, 90vw);
+    height: 360px;
+    background-image: url("/Images/elements/Chart 06.png");
+    background-position: bottom center;
+    background-size: contain;
+    opacity: 0.12;
+    animation: ringDrift 12s ease-in-out infinite;
+  }
 
-	.ringSmall {
-		top: 12%;
-		left: -60px;
-		width: 220px;
-		height: 220px;
-		transform-origin: 50% 50%;
-	}
+  .ringSmall {
+    top: 12%;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    transform-origin: 50% 50%;
+  }
 
-	.ringLarge {
-		bottom: 8%;
-		right: -90px;
-		width: 580px;
-		height: 580px;
-		transform-origin: 50% 50%;
-	}
+  .ringLarge {
+    bottom: 8%;
+    right: -90px;
+    width: 580px;
+    height: 580px;
+    transform-origin: 50% 50%;
+  }
 
-	.ringSmallInner,
-	.ringLargeInner {
-		position: absolute;
-		inset: 0;
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center;
-		will-change: transform;
-	}
+  .ringSmallInner,
+  .ringLargeInner {
+    position: absolute;
+    inset: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    will-change: transform;
+  }
 
-	.ringSmallInner {
-		background-image: url("/Images/elements/Circular element 01.png");
-	}
+  .ringSmallInner {
+    background-image: url("/Images/elements/Circular element 01.png");
+  }
 
-	.ringLargeInner {
-		background-image: url("/Images/elements/Circular element 29.png");
-	}
+  .ringLargeInner {
+    background-image: url("/Images/elements/Circular element 29.png");
+  }
 
-	@media (max-width: 720px) {
-		.ringSmall {
-			width: 160px;
-			height: 160px;
-			left: -40px;
-		}
-		.ringLarge {
-			width: 260px;
-			height: 260px;
-			right: -70px;
-			bottom: 4%;
-		}
-	}
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    z-index: 1;
 
-	h1 {
-		font-size: clamp(2.5rem, 6vw, 4rem);
-		font-weight: 700;
-		margin-bottom: 1rem;
-		z-index: 1;
+    span {
+      color: var(--accent);
+    }
+  }
 
-		span {
-			color: var(--accent);
-		}
-	}
+  p {
+    font-size: 1.25rem;
+    max-width: 600px;
+    opacity: 0.85;
+    z-index: 1;
+  }
 
-	p {
-		font-size: 1.25rem;
-		max-width: 600px;
-		opacity: 0.85;
-		z-index: 1;
-	}
+  .scrollDown {
+    margin-top: 2rem;
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+    z-index: 1;
+  }
 
-	.scrollDown {
-		margin-top: 3rem;
-		font-size: 2rem;
-		animation: bounce 2s infinite;
-		z-index: 1;
-	}
+  .iconWrap {
+    position: relative;
+    height: 120px;
+    margin-bottom: 2rem;
+    margin-top: 5rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: iconFloat 7s ease-in-out infinite;
+  }
 
-	.iconWrap {
-		position: relative;
-		width: 120px;
-		height: 120px;
-		margin-bottom: 0.5rem;
-		z-index: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
-		animation: iconFloat 7s ease-in-out infinite;
-	}
+  .glassesWrap {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    isolation: isolate;
+  }
 
-	.sunglassesWrap {
-		position: relative;
-		display: inline-block;
-		width: 100%;
-		height: 100%;
-		isolation: isolate;
-	}
+  .glassesSvg {
+    width: 90%;
+    display: block;
+    animation: iconFloat 7s ease-in-out infinite;
+  }
 
-	.sunglassesSvg {
-		width: 100%;
-		height: 100%;
-		display: block;
-		filter: drop-shadow(0 4px 14px var(--shadow));
-		animation: iconFloat 7s ease-in-out infinite;
-	}
+  .glassesImage {
+    position: absolute !important;
+    inset: 0;
+    object-fit: contain;
+  }
 
-	.sunglassesImage {
-		position: absolute !important;
-		inset: 0;
-		object-fit: contain;
-		filter: brightness(0.9) contrast(1.05);
-	}
+  .title {
+    position: relative;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--text) 85%, white 15%),
+      var(--text),
+      color-mix(in srgb, var(--accent) 60%, var(--text) 40%)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-	.title {
-		position: relative;
-		background: linear-gradient(
-			90deg,
-			color-mix(in srgb, var(--text) 85%, white 15%),
-			var(--text),
-			color-mix(in srgb, var(--accent) 60%, var(--text) 40%)
-		);
-		-webkit-background-clip: text;
-		background-clip: text;
-		color: transparent;
-	}
+  .scrollButton {
+    position: relative;
+    width: auto;
+    height: 42px;
+    padding: 15px 20px;
+    margin: 30px auto;
+    margin-bottom: 0px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: transform 0.25s cubic-bezier(0.33, 0.7, 0.4, 1), box-shadow 0.3s,
+      background 0.35s, filter 0.4s;
+    animation: scrollButtonPulse 3.2s ease-in-out infinite;
+    overflow: hidden;
+  }
+
+  .scrollButton:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.65),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    filter: brightness(1.15) saturate(1.15);
+  }
+
+  .scrollButton:hover::before {
+    opacity: 1;
+  }
+
+  .scrollButton:hover::after {
+    width: 200px;
+    animation: sheenMove 1s ease-in-out forwards;
+  }
 }
 
 /* ===================== ANIMATIONS ===================== */
 
 @keyframes bounce {
-	0%,
-	100% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(10px);
-	}
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
 }
 
 @keyframes heroGradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes glowDrift {
-	0% {
-		transform: translate3d(0, 0, 0) scale(1);
-		filter: blur(2px);
-	}
-	33% {
-		transform: translate3d(40px, 25px, 0) scale(1.05);
-		filter: blur(3px);
-	}
-	66% {
-		transform: translate3d(-30px, 50px, 0) scale(0.95);
-		filter: blur(4px);
-	}
-	100% {
-		transform: translate3d(0, 0, 0) scale(1);
-		filter: blur(2px);
-	}
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(2px);
+  }
+  33% {
+    transform: translate3d(40px, 25px, 0) scale(1.05);
+    filter: blur(3px);
+  }
+  66% {
+    transform: translate3d(-30px, 50px, 0) scale(0.95);
+    filter: blur(4px);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(2px);
+  }
 }
 
 @keyframes sheen {
-	0% {
-		opacity: 0;
-		transform: translateX(-30%) skewX(-10deg);
-	}
-	12% {
-		opacity: 1;
-	}
-	25% {
-		opacity: 0;
-		transform: translateX(120%) skewX(-10deg);
-	}
-	100% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+    transform: translateX(-30%) skewX(-10deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0;
+    transform: translateX(120%) skewX(-10deg);
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes iconFloat {
-	0%,
-	100% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(10px);
-	}
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
 }
 
 @keyframes slowSpin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes slowSpinReverse {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(-360deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 @keyframes ringDrift {
-	0% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(-6px);
-	}
-	100% {
-		transform: translateY(0);
-	}
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
-/* ===================== REDUCED MOTION ===================== */
-@media (prefers-reduced-motion: reduce) {
-	.hero {
-		animation: none !important;
-	}
-	.hero .glow,
-	.hero .iconWrap,
-	.hero .sunglassesSvg,
-	.hero .scrollDown,
-	.hero .deco,
-	.hero .chartAccent {
-		animation: none !important;
-	}
+@keyframes scrollButtonPulse {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  60% {
+    transform: translateY(0) scale(1.035);
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--accent) 0%, transparent);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
+  }
+}
+
+@keyframes sheenMove {
+  0% {
+    transform: translateX(-120%) rotate(25deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateX(180%) rotate(25deg);
+    opacity: 0;
+  }
 }

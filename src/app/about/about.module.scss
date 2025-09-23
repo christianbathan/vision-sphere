@@ -1,131 +1,116 @@
 .aboutWrapper {
-	position: relative;
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	// background: linear-gradient(140deg, #222831, #31363f, #222831, #31363f);
-	background-color: var(--bg);
-	background-size: 180% 180%;
-	background-position: 0% 50%;
-	overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+  background-size: 180% 180%;
+  background-position: 0% 50%;
+  overflow: hidden;
 
-	&::before {
-		content: "";
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		width: 2000px;
-		aspect-ratio: 1 / 1;
-		background-image: url("/Images/elements/Globe 3.png");
-		background-repeat: no-repeat;
-		background-position: center;
-		background-size: contain;
-		opacity: 0.08;
-		filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.2));
-		transform: translate(-50%, -50%);
-		pointer-events: none;
-		z-index: 0;
-	}
+  &::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2000px;
+    aspect-ratio: 1 / 1;
+    background-image: url("/Images/elements/Globe 3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.08;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.2));
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
 .aboutSection {
-	background: linear-gradient(
-		135deg,
-		color-mix(in srgb, var(--surface) 92%, transparent),
-		color-mix(in srgb, var(--bg) 92%, transparent)
-	);
-	border-radius: 18px;
-	box-shadow: 0 2px 24px color-mix(in srgb, var(--accent) 8%, transparent);
-	padding: 3rem;
-	max-width: 60%;
-	width: 100%;
-	border: 1px solid var(--border);
-	position: relative;
-	isolation: isolate;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--surface) 92%, transparent),
+    color-mix(in srgb, var(--bg) 92%, transparent)
+  );
+  border-radius: 18px;
+  box-shadow: 0 2px 24px color-mix(in srgb, var(--accent) 8%, transparent);
+  padding: 3rem;
+  max-width: 70%;
+  width: 100%;
+  border: 1px solid var(--border);
+  position: relative;
+  isolation: isolate;
 
-	&::before {
-		content: "";
-		position: absolute;
-		left: 0%;
-		bottom: 0%;
-		width: 70%;
-		height: 70%;
-		background-image: url("/Images/elements/Chart 06.png");
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: bottom left;
-		opacity: 0.06;
-		pointer-events: none;
-		z-index: 0;
-	}
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0%;
+    bottom: 0%;
+    width: 70%;
+    height: 70%;
+    background-image: url("/Images/elements/Chart 06.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom left;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
 .aboutContent {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	gap: 4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
 }
 
 .textBlock {
-	flex: 1 1 0;
-	text-align: left;
+  flex: 1 1 0;
+  text-align: left;
 }
 
 .imageBlock {
-	flex: 0 0 400px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  flex: 0 0 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .aboutImage {
-	width: 100%;
-	height: auto;
-	object-fit: contain;
-	filter: drop-shadow(
-		0 2px 12px color-mix(in srgb, var(--accent) 80%, transparent)
-	);
-	border-radius: 18px;
-}
-
-@media (max-width: 700px) {
-	.aboutContent {
-		flex-direction: column;
-		gap: 1.5rem;
-	}
-	.imageBlock {
-		margin-top: 1.5rem;
-	}
-	.aboutImage {
-		width: 120px;
-		height: 120px;
-	}
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  filter: drop-shadow(
+    0 2px 12px color-mix(in srgb, var(--accent) 80%, transparent)
+  );
+  border-radius: 18px;
 }
 
 .aboutSection p {
-	font-size: 1rem;
-	color: var(--text);
-	margin-bottom: 1.1rem;
-	line-height: 1.7;
-	text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 18%, transparent);
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+  line-height: 1.7;
+  text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 18%, transparent);
 }
 
 .aboutSection h1 {
-	font-size: 2rem;
-	background: linear-gradient(
-		90deg,
-		var(--accent-weak),
-		var(--accent),
-		var(--accent-strong)
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	color: transparent;
-	margin-bottom: 1.1rem;
-	line-height: 1.7;
-	text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 18%, transparent);
+  font-size: 2rem;
+  background: linear-gradient(
+    90deg,
+    var(--accent-weak),
+    var(--accent),
+    var(--accent-strong)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 1.1rem;
+  line-height: 1.7;
+  text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 18%, transparent);
 }

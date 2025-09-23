@@ -1,149 +1,102 @@
 .header {
-	position: fixed;
-	top: 0px;
-	left: 0;
-	right: 0;
-	z-index: 130;
-	backdrop-filter: blur(8px);
-	background-color: var(--bg);
-	border-bottom: 1px solid var(--border);
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  z-index: 130;
+  background-color: var(--bg);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
 }
 
 .inner {
-	max-width: 1160px;
-	margin: 0 auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1rem 1.1rem;
-	gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 1rem 1.1rem;
 }
 
 .brand {
-	font-size: 1.5rem;
-	font-weight: 600;
-	letter-spacing: 0.5px;
-	text-decoration: none;
-	background: linear-gradient(
-		90deg,
-		var(--accent-weak),
-		var(--accent),
-		var(--accent-strong)
-	);
-	background-size: 200% 100%;
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
-	animation: brandSheen 8s linear infinite;
-}
-
-@keyframes brandSheen {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-.brand:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 3px;
-	border-radius: 4px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: var(--accent);
 }
 
 .nav {
-	display: flex;
-	align-items: center;
-	gap: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .navLink {
-	position: relative;
-	font-size: 0.9rem;
-	font-weight: 500;
-	letter-spacing: 0.5px;
-	text-decoration: none;
-	color: var(--muted);
-	padding: 0.35rem 0.55rem;
-	border-radius: 6px;
-	transition: color 0.25s, background 0.35s, box-shadow 0.35s;
-}
-.navLink::after {
-	content: "";
-	position: absolute;
-	left: 8px;
-	right: 8px;
-	bottom: 4px;
-	height: 2px;
-	background: linear-gradient(90deg, var(--accent-weak), var(--accent-strong));
-	transform: scaleX(0);
-	transform-origin: left;
-	transition: transform 0.45s cubic-bezier(0.33, 0.7, 0.4, 1);
-	border-radius: 2px;
-	opacity: 0.85;
-}
-.navLink:hover {
-	color: var(--text);
-	background: rgba(255, 255, 255, 0.04);
-}
-.navLink:hover::after {
-	transform: scaleX(1);
-}
-.navLink:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 2px;
-}
-.navLink:active {
-	background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  transition: color 0.25s, background 0.35s, box-shadow 0.35s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 4px;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--accent-weak),
+      var(--accent-strong)
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s cubic-bezier(0.33, 0.7, 0.4, 1);
+    border-radius: 2px;
+    opacity: 0.85;
+  }
+
+  &:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.04);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
 }
 
 .progressContainer {
-	position: relative;
-	width: 100%;
-	height: 16px;
-	//   background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
-	overflow: hidden;
-	//   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
-	//     0 2px 4px -1px rgba(0, 0, 0, 0.5);
-	// border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  width: 100%;
+  height: 16px;
+  overflow: hidden;
 }
 
 .progressBar {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	transform-origin: left center;
-	transform: scaleX(0);
-	background: linear-gradient(
-		90deg,
-		var(--accent-weak),
-		var(--accent),
-		var(--accent-strong)
-	);
-	filter: drop-shadow(
-		0 0 4px color-mix(in srgb, var(--accent) 60%, transparent)
-	);
-	transition: opacity 0.3s;
-}
-
-@media (max-width: 640px) {
-	.progressContainer {
-		width: 140px;
-	}
-}
-
-@media (max-width: 640px) {
-	.brand {
-		font-size: 1rem;
-	}
-	.inner {
-		padding: 0.55rem 0.85rem;
-	}
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: opacity 0.3s;
 }
