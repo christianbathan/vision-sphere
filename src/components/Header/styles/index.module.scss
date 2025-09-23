@@ -99,7 +99,7 @@
   background-color: var(--accent);
   transform-origin: left;
   transform: scaleX(0);
-  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  transition: none;
   opacity: 0.6;
   will-change: transform, opacity;
 }
