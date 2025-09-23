@@ -173,9 +173,9 @@ const Hero = () => {
           src="/Images/image 9.png"
           alt="glasses"
           className={styles.glassesSvg}
-          width={700}
+          width={200}
           height={120}
-          priority={false}
+          priority={true}
           ref={imgRef}
         />
       </div>
