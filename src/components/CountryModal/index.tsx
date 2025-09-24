@@ -7,7 +7,7 @@ import type { EyewearModalProps } from "./types";
 import ProgressAnimator from "@/components/ProgressAnimator";
 import Ripple from "../Ripple/Ripple";
 
-const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
+const CountryModal = ({ country, products, onClose }: EyewearModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -92,9 +92,9 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
         <hr className={styles.divider} />
 
         <div className={styles.body}>
-          {items.length > 0 ? (
+          {products.length > 0 ? (
             <div className={styles.itemList}>
-              {items.map((item, i) => {
+              {products.map((item, i) => {
                 const { name, imageUrl, description, id, metrics } = item;
                 const price = metrics?.price
                   ? new Intl.NumberFormat(undefined, {
@@ -168,7 +168,7 @@ const CountryModal = ({ country, items, onClose }: EyewearModalProps) => {
           )}
         </div>
 
-        {items.length > 0 && (
+        {products.length > 0 && (
           <div className={styles.footerRow}>
             <Ripple className={styles.rippleWrapper}>
               <a

@@ -42,6 +42,7 @@ const Hero = () => {
         )
       );
     }
+
     if (imgRef.current) {
       animations.push(
         imgRef.current.animate(
@@ -60,6 +61,7 @@ const Hero = () => {
         )
       );
     }
+
     if (titleRef.current) {
       animations.push(
         titleRef.current.animate(
@@ -84,6 +86,7 @@ const Hero = () => {
         )
       );
     }
+
     if (textRef.current) {
       animations.push(
         textRef.current.animate(
@@ -100,6 +103,7 @@ const Hero = () => {
         )
       );
     }
+
     if (arrowRef.current) {
       animations.push(
         arrowRef.current.animate([{ opacity: 0 }, { opacity: 1 }], {
@@ -115,6 +119,7 @@ const Hero = () => {
       { opacity: 0, transform: "translateY(10px)" },
       { opacity: 0.18, transform: "translateY(0)" },
     ];
+
     const decoTiming = {
       duration: 700,
       easing: "cubic-bezier(.33,.66,.4,1)",
@@ -124,8 +129,10 @@ const Hero = () => {
 
     if (ringSmallRef.current)
       animations.push(ringSmallRef.current.animate(decoFade, decoTiming));
+
     if (ringLargeRef.current)
       animations.push(ringLargeRef.current.animate(decoFade, decoTiming));
+
     if (chartRef.current) {
       animations.push(
         chartRef.current.animate(
@@ -134,6 +141,22 @@ const Hero = () => {
             { opacity: 0.12, transform: "translateY(0)" },
           ],
           { ...decoTiming, delay: 320 }
+        )
+      );
+
+      animations.push(
+        chartRef.current.animate(
+          [
+            { transform: "translateX(0)" },
+            { transform: "translateX(20px)" },
+            { transform: "translateX(0)" },
+          ],
+          {
+            duration: 12000,
+            iterations: Infinity,
+            easing: "ease-in-out",
+            delay: 1000,
+          }
         )
       );
     }

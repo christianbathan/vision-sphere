@@ -70,10 +70,8 @@
   }
 
   .chartAccent {
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    width: min(900px, 90vw);
+    bottom: 10px;
+    width: 100%;
     height: 360px;
     background-image: url("/Images/elements/Chart 06.png");
     background-position: bottom center;
@@ -200,33 +198,17 @@
     background-color: var(--surface);
     color: var(--text);
     font-size: 1rem;
-    line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.55),
       0 0 0 1px rgba(255, 255, 255, 0.05);
-    transition: transform 0.25s cubic-bezier(0.33, 0.7, 0.4, 1), box-shadow 0.3s,
-      background 0.35s, filter 0.4s;
     animation: scrollButtonPulse 3.2s ease-in-out infinite;
-    overflow: hidden;
   }
 
   .scrollButton:hover {
-    transform: translateY(-3px) scale(1.06);
-    box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.65),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
     filter: brightness(1.15) saturate(1.15);
-  }
-
-  .scrollButton:hover::before {
-    opacity: 1;
-  }
-
-  .scrollButton:hover::after {
-    width: 200px;
-    animation: sheenMove 1s ease-in-out forwards;
   }
 }
 
@@ -255,38 +237,14 @@
 }
 
 @keyframes glowDrift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
     filter: blur(2px);
   }
-  33% {
-    transform: translate3d(40px, 25px, 0) scale(1.05);
+  50% {
+    transform: translate(20px, 30px) scale(1.2);
     filter: blur(3px);
-  }
-  66% {
-    transform: translate3d(-30px, 50px, 0) scale(0.95);
-    filter: blur(4px);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(2px);
-  }
-}
-
-@keyframes sheen {
-  0% {
-    opacity: 0;
-    transform: translateX(-30%) skewX(-10deg);
-  }
-  12% {
-    opacity: 1;
-  }
-  25% {
-    opacity: 0;
-    transform: translateX(120%) skewX(-10deg);
-  }
-  100% {
-    opacity: 0;
   }
 }
 
@@ -300,61 +258,17 @@
   }
 }
 
-@keyframes slowSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes slowSpinReverse {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-@keyframes ringDrift {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 @keyframes scrollButtonPulse {
   0% {
-    transform: translateY(0) scale(1);
+    transform: scale(1);
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 35%, transparent);
   }
   60% {
-    transform: translateY(0) scale(1.035);
+    transform: scale(1.1);
     box-shadow: 0 0 0 14px color-mix(in srgb, var(--accent) 0%, transparent);
   }
   100% {
-    transform: translateY(0) scale(1);
+    transform: scale(1);
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
-  }
-}
-
-@keyframes sheenMove {
-  0% {
-    transform: translateX(-120%) rotate(25deg);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.55;
-  }
-  100% {
-    transform: translateX(180%) rotate(25deg);
-    opacity: 0;
   }
 }

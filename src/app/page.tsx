@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
 import CountryModal from "@/components/CountryModal";
 import { COUNTRY_PINS } from "@/constants/pins";
 import countryContent from "@/constants/country-content";
-
 import type { Pin } from "@/components/Globe/types";
-import type { EyewearModalProps } from "@/components/CountryModal/types";
-type CountriesMap = Omit<typeof countryContent, "brands">;
-type CountryCode = keyof CountriesMap;
+import type {
+  EyewearModalProps,
+  CountryCode,
+  CountryData,
+} from "@/components/CountryModal/types";
 
 const GlobeComponent = dynamic(() => import("@/components/Globe"), {
   ssr: false,
@@ -18,7 +19,7 @@ const GlobeComponent = dynamic(() => import("@/components/Globe"), {
 
 const pins: Pin[] = COUNTRY_PINS;
 
-const Home: React.FC = () => {
+const Home = () => {
   const [selected, setSelected] = useState<EyewearModalProps | null>(null);
   const [shouldLoadGlobe, setShouldLoadGlobe] = useState(false);
   const globeSectionRef = useRef<HTMLElement | null>(null);
@@ -28,21 +29,26 @@ const Home: React.FC = () => {
     const el = globeSectionRef.current;
     if (!el) return;
 
-    const thresholds = [0.25, 0.5, 0.75, 0.9, 0.95, 1];
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
-            setShouldLoadGlobe(true);
-            observer.disconnect();
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
+          setShouldLoadGlobe(true);
+          observer.disconnect();
+        }
       },
-      { threshold: thresholds }
+      { threshold: [0, 0.15, 0.3, 0.6] }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, [shouldLoadGlobe]);
+
+  const handlePinClick = (target: Pin) => {
+    const country = pins.find((location) => location.id === target.id);
+    if (!country) return;
+    const code = country.id as CountryCode;
+    const data = countryContent[code] as CountryData;
+    setSelected({ country, products: data?.items ?? [] });
+  };
 
   return (
     <div style={{ position: "relative" }}>
@@ -59,33 +65,12 @@ const Home: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        {shouldLoadGlobe ? (
-          <GlobeComponent
-            pins={pins}
-            onPinClick={(pt) => {
-              const country = pins.find((p) => p.id === pt.id);
-              if (country) {
-                const code = country.id as CountryCode;
-                const raw = (countryContent as CountriesMap)[code];
-                const items = raw?.items ?? [];
-                setSelected({ country, items });
-              }
-            }}
-          />
-        ) : (
-          <div
-            style={{
-              textAlign: "center",
-              color: "var(--muted)",
-              fontSize: "1.1rem",
-              opacity: 0.8,
-              padding: "1rem",
-            }}
-          ></div>
+        {shouldLoadGlobe && (
+          <GlobeComponent pins={pins} onPinClick={handlePinClick} />
         )}
         <CountryModal
           country={selected?.country ?? null}
-          items={selected?.items ?? []}
+          products={selected?.products ?? []}
           onClose={() => setSelected(null)}
         />
       </section>

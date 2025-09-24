@@ -3,9 +3,12 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./styles/index.module.scss";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const progressRef = useRef<HTMLDivElement>(null);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     const element = progressRef.current;
@@ -19,6 +22,7 @@ const Header = () => {
       const scrollHeight =
         (document.documentElement.scrollHeight || document.body.scrollHeight) -
         window.innerHeight;
+
       const newRatio = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
 
       if (Math.abs(newRatio - lastRatio) < 0.001) return;
@@ -29,15 +33,19 @@ const Header = () => {
       lastRatio = newRatio;
     };
 
-    updateProgress();
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
+    const handleScroll = () => requestAnimationFrame(updateProgress);
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    window.addEventListener("load", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("resize", updateProgress);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("load", handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <header className={styles.header}>

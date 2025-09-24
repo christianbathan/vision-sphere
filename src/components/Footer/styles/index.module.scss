@@ -41,10 +41,3 @@
 .link:hover {
   color: var(--text);
 }
-
-@media (max-width: 640px) {
-  .inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}

@@ -2,23 +2,22 @@
 
 import styles from "./styles/index.module.scss";
 import Image from "next/image";
+import Link from "next/link";
 import { CSSProperties } from "react";
 import React from "react";
 import countryContent from "@/constants/country-content";
 import ProgressAnimator from "@/components/ProgressAnimator";
 import Ripple from "@/components/Ripple/Ripple";
+import type { CountryCode } from "@/components/CountryModal/types";
+import { instanceIndex } from "three/tsl";
 
-type CountryCode = "PH" | "SG" | "US";
 interface countryProps {
-  params: Promise<{ countryId: string }>;
+  params: Promise<{ countryId: CountryCode }>;
 }
 
 const CountryLearnMorePage = ({ params }: countryProps) => {
   const { countryId } = React.use(params);
-  const upperId = countryId.toUpperCase();
-  const code: CountryCode = ["PH", "SG", "US"].includes(upperId)
-    ? (upperId as CountryCode)
-    : "US";
+  const code = countryId.toUpperCase() as CountryCode;
 
   const { hero, items } = countryContent[code];
   const allBrands = countryContent.brands;
@@ -41,7 +40,7 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
             <div className={styles.contentInner}>
               <div className={styles.contentIcon}>
                 <Image
-                  src={`/Icons/flags/${upperId.toLowerCase()}.svg`}
+                  src={`/Icons/flags/${code.toLowerCase()}.svg`}
                   alt={`${countryId} Flag`}
                   width={70}
                   height={70}
@@ -59,15 +58,15 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
           <h2>Top 3 Essilor Products</h2>
           <div className={styles.cards}>
             <div className={styles.cardsGrid}>
-              {items.map((item, idx) => {
+              {items.map((item, index) => {
                 const { name, description, metrics, imageUrl, url } = item;
                 const popularity = metrics?.searchInterest ?? 0;
                 const rating = Math.round(metrics?.ratings ?? 0);
 
                 return (
-                  <div className={styles.card} key={idx}>
+                  <div className={styles.card} key={index}>
                     <div className={styles.cardInner}>
-                      <div className={styles.chartDeco} aria-hidden="true" />
+                      <div className={styles.chartDeco} />
 
                       <div className={styles.left}>
                         <h3>{name}</h3>
@@ -126,11 +125,11 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
                               Ratings:
                             </span>
                             <br />
-                            {Array.from({ length: 5 }).map((_, i) => (
+                            {Array.from({ length: 5 }).map((_, index) => (
                               <span
-                                key={i}
+                                key={index}
                                 className={`${styles.star} ${
-                                  i < rating ? styles.filled : ""
+                                  index < rating ? styles.filled : ""
                                 }`}
                               >
                                 ★
@@ -140,14 +139,13 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
                         </div>
 
                         <Ripple className={styles.rippleWrapper}>
-                          <a
+                          <Link
                             className={styles.cardCta}
                             href={url}
                             target="_blank"
-                            rel="noopener noreferrer"
                           >
                             Discover
-                          </a>
+                          </Link>
                         </Ripple>
                       </div>
 
@@ -157,7 +155,6 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
                             src={imageUrl ?? "/Icons/sunglasses.svg"}
                             alt={name}
                             fill
-                            sizes="(max-width: 768px) 80vw, 40vw"
                             className={styles.mediaImg}
                           />
                         </div>
@@ -174,18 +171,16 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
       <section className={styles.brands}>
         <h2 className={styles.brandsTitle}>Essilor Brands</h2>
         <div className={styles.brandsContainer}>
-          {allBrands.map((brand, i) => (
-            <div className={styles.brandCard} key={i}>
+          {allBrands.map((brand, index) => (
+            <div className={styles.brandCard} key={index}>
               <div className={styles.brandImageBox}>
                 <Image
-                  src={`/Images/brands/${brand.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "")}.jpg`}
-                  alt={`${brand.name} logo`}
+                  src={`/Images/brands/${brand.name}.jpg`}
+                  alt={`${brand.name}-logo`}
                   width={100}
                   height={120}
                   className={styles.brandImage}
-                  loading="lazy"
+                  unoptimized
                 />
               </div>
               <h3>{brand.name}</h3>
@@ -193,14 +188,13 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
 
               <div className={styles.brandCtaContainer}>
                 <Ripple className={styles.rippleWrapper}>
-                  <a
+                  <Link
                     className={styles.brandCta}
                     href={brand.url}
                     target="_blank"
-                    rel="noopener noreferrer"
                   >
                     Discover
-                  </a>
+                  </Link>
                 </Ripple>
               </div>
             </div>

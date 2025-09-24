@@ -1,33 +1,23 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import "./globals.css";
+import "../styles/global.scss";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "VisionSphere",
   description: "Explore the world through style with VisionSphere",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={poppins.variable}>
-        <Header />
-        <div>{children}</div>
-        <Footer />
-      </body>
-    </html>
-  );
-}
+type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
+
+const RootLayout = ({ children }: RootLayoutProps) => (
+  <html lang="en">
+    <body>
+      <Header />
+      <div>{children}</div>
+      <Footer />
+    </body>
+  </html>
+);
+
+export default RootLayout;
