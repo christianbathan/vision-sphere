@@ -22,37 +22,39 @@ const Header = () => {
 
     let lastRatio = 0;
 
-    const getScrollableRoot = () =>
-      (document.scrollingElement || document.documentElement) as HTMLElement;
+    const getScrollRoot = () => {
+      return (
+        document.scrollingElement || document.documentElement || document.body
+      );
+    };
 
     const computeRatio = () => {
-      const root = getScrollableRoot();
-      const maxScroll = root.scrollHeight - window.innerHeight;
+      const root = getScrollRoot();
+      const maxScroll = root.scrollHeight - root.clientHeight;
       if (maxScroll <= 0) return 0;
       return Math.min(1, Math.max(0, root.scrollTop / maxScroll));
     };
 
     const updateProgress = () => {
       const newRatio = computeRatio();
-
       if (Math.abs(newRatio - lastRatio) < 0.001) return;
 
       element.style.transform = `scaleX(${newRatio})`;
       element.style.opacity = newRatio > 0.01 ? "1" : "0.6";
-
       lastRatio = newRatio;
     };
 
     const handleScroll = () => requestAnimationFrame(updateProgress);
 
-    const mo = new MutationObserver(() => updateProgress());
-    mo.observe(document.body, {
+    handleScroll();
+
+    const observer = new MutationObserver(() => updateProgress());
+    observer.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
     });
 
-    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
     window.addEventListener("load", handleScroll);
@@ -61,7 +63,7 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
       window.removeEventListener("load", handleScroll);
-      mo.disconnect();
+      observer.disconnect();
     };
   }, [pathname]);
 
