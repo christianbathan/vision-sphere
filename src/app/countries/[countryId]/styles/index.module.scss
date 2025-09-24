@@ -266,9 +266,9 @@ body {
       color-mix(in srgb, var(--accent) 70%, transparent)
     );
     border-radius: inherit;
-    --p: 0;
+    --progress-scale: 0;
     transform-origin: left center;
-    transform: scaleX(var(--p));
+    transform: scaleX(var(--progress-scale));
     transition: transform 900ms ease-out;
     will-change: transform;
   }

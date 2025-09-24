@@ -14,16 +14,26 @@ const Header = () => {
     const element = progressRef.current;
     if (!element) return;
 
+    if (pathname !== "/") {
+      element.style.transform = "scaleX(0)";
+      element.style.opacity = "0";
+      return;
+    }
+
     let lastRatio = 0;
 
-    const updateProgress = () => {
-      const scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      const scrollHeight =
-        (document.documentElement.scrollHeight || document.body.scrollHeight) -
-        window.innerHeight;
+    const getScrollableRoot = () =>
+      (document.scrollingElement || document.documentElement) as HTMLElement;
 
-      const newRatio = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+    const computeRatio = () => {
+      const root = getScrollableRoot();
+      const maxScroll = root.scrollHeight - window.innerHeight;
+      if (maxScroll <= 0) return 0;
+      return Math.min(1, Math.max(0, root.scrollTop / maxScroll));
+    };
+
+    const updateProgress = () => {
+      const newRatio = computeRatio();
 
       if (Math.abs(newRatio - lastRatio) < 0.001) return;
 
@@ -35,6 +45,13 @@ const Header = () => {
 
     const handleScroll = () => requestAnimationFrame(updateProgress);
 
+    const mo = new MutationObserver(() => updateProgress());
+    mo.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+    });
+
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
@@ -44,6 +61,7 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
       window.removeEventListener("load", handleScroll);
+      mo.disconnect();
     };
   }, [pathname]);
 

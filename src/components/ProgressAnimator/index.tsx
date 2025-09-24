@@ -9,39 +9,41 @@ const ProgressAnimator = () => {
     );
     if (progressElements.length === 0) return;
 
-    // Set progress elements to zero
-    progressElements.forEach((element) => {
-      if (element.dataset.progress === "scale") {
-        element.style.setProperty("--p", "0");
+    const resetElement = (element: HTMLElement, type: string | undefined) => {
+      if (type === "scale") {
+        element.style.setProperty("--progress-scale", "0");
       } else {
         element.style.width = "0%";
       }
-    });
+    };
+
+    progressElements.forEach((element) =>
+      resetElement(element, element.dataset.progress)
+    );
 
     const handleIntersections = (entries: IntersectionObserverEntry[]) => {
       entries.forEach(({ target, isIntersecting }) => {
         const element = target as HTMLElement;
-        const progressValue = Math.min(
+        const type = element.dataset.progress;
+        const targetValue = Math.min(
           100,
           Math.max(0, Number(element.dataset.p) || 0)
         );
 
         if (isIntersecting) {
           void element.offsetWidth;
-          if (element.dataset.progress === "scale") {
-            element.style.setProperty("--p", String(progressValue / 100));
+          if (type === "scale") {
+            element.style.setProperty(
+              "--progress-scale",
+              String(targetValue / 100)
+            );
           } else {
             element.style.width = "0%";
             void element.offsetWidth;
-            element.style.width = `${progressValue}%`;
+            element.style.width = `${targetValue}%`;
           }
         } else {
-          // Reset when not in view
-          if (element.dataset.progress === "scale") {
-            element.style.setProperty("--p", "0");
-          } else {
-            element.style.width = "0%";
-          }
+          resetElement(element, type);
         }
       });
     };

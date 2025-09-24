@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, ReactNode, forwardRef } from "react";
+import React, { useState, ReactNode, forwardRef } from "react";
 import style from "./Ripple.module.scss";
 
 type RippleProps = {
@@ -14,38 +14,18 @@ const Ripple = forwardRef<HTMLDivElement, RippleProps>(
     const color = "#000000";
     const opacity = 0.3;
     const size = 3;
-    const centerOnly = true;
 
     const [show, setShow] = useState(false);
-    const [holding, setHolding] = useState(false);
-    const [animating, setAnimating] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
 
-    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-      const { left, top } = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - left;
-      const y = e.clientY - top;
-
-      setPosition({ x, y });
-      setShow(true);
-      setHolding(true);
-      setAnimating(true);
-    };
-
-    const handlePointerUpOrOut = () => setHolding(false);
-
-    const handleTransitionEnd = () => setAnimating(false);
-
-    useEffect(() => {
-      if (!animating && !holding) setShow(false);
-    }, [animating, holding]);
+    const handlePointerDown = () => setShow(true);
+    const handlePointerUpOrOut = () => setShow(false);
 
     const rippleStyle: React.CSSProperties = {
-      top: centerOnly ? "50%" : position.y,
-      left: centerOnly ? "50%" : position.x,
+      top: "50%",
+      left: "50%",
       opacity,
       backgroundColor: color,
-      transition: show ? `${duration}s ease` : "none",
+      transition: `${duration}s ease`,
       transform: `translate(-50%, -50%) scale(${show ? size : 0})`,
       border: "none",
     };
@@ -59,11 +39,7 @@ const Ripple = forwardRef<HTMLDivElement, RippleProps>(
         ref={ref}
       >
         {children}
-        <span
-          className={style.ripple}
-          style={rippleStyle}
-          onTransitionEnd={handleTransitionEnd}
-        />
+        <span className={style.ripple} style={rippleStyle} />
       </div>
     );
   }

@@ -114,8 +114,9 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
                               data-p={popularity}
                               style={
                                 {
-                                  "--p": String(popularity / 100),
-                                } as CSSProperties & Record<"--p", string>
+                                  "--progress-scale": String(popularity / 100),
+                                } as CSSProperties &
+                                  Record<"--progress-scale", string>
                               }
                             />
                           </div>
@@ -175,8 +176,8 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
             <div className={styles.brandCard} key={index}>
               <div className={styles.brandImageBox}>
                 <Image
-                  src={`/Images/brands/${brand.name}.jpg`}
-                  alt={`${brand.name}-logo`}
+                  src={`/Images/brands/${brand.name.toLowerCase()}.jpg`}
+                  alt={`${brand.name}-Logo`}
                   width={100}
                   height={120}
                   className={styles.brandImage}
