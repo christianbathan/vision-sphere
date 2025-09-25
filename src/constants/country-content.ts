@@ -2,27 +2,27 @@ const data = {
   brands: [
     {
       name: "Eyezen",
-      url: "https://www.essilor.com/ph-en/products/eyezen/",
+      slug: "eyezen",
       description: "The new generation of single vision lenses",
     },
     {
       name: "Varilux",
-      url: "https://www.essilor.com/ph-en/products/varilux/",
+      slug: "varilux",
       description: "Mastering sharpness instantly",
     },
     {
       name: "Xperio",
-      url: "https://www.essilor.com/ph-en/products/xperio/",
+      slug: "xperio",
       description: "Goes beyond protection",
     },
     {
       name: "Transitions",
-      url: "https://www.essilor.com/ph-en/products/transitions/",
+      slug: "transitions",
       description: "Light intelligent technology",
     },
     {
       name: "Crizal",
-      url: "https://www.essilor.com/ph-en/products/crizal/",
+      slug: "crizal",
       description: "Your lenses' invisible shield",
     },
   ],

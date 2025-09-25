@@ -19,7 +19,15 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
   const code = countryId.toUpperCase() as CountryCode;
 
   const { hero, items } = countryContent[code];
-  const allBrands = countryContent.brands;
+  interface Brand {
+    name: string;
+    slug?: string;
+    description: string;
+  }
+  const allBrands = countryContent.brands as Brand[];
+
+  const buildBrandUrl = (slug: string) =>
+    `https://www.essilor.com/${code.toLowerCase()}-en/products/${slug}/`;
 
   return (
     <main className={styles.pageContainer}>
@@ -190,7 +198,7 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
                 <Ripple className={styles.rippleWrapper}>
                   <Link
                     className={styles.brandCta}
-                    href={brand.url}
+                    href={buildBrandUrl(brand.slug || brand.name.toLowerCase())}
                     target="_blank"
                   >
                     Discover
