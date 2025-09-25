@@ -48,13 +48,6 @@ const Header = () => {
 
     handleScroll();
 
-    const observer = new MutationObserver(() => updateProgress());
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-    });
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
     window.addEventListener("load", handleScroll);
@@ -63,7 +56,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
       window.removeEventListener("load", handleScroll);
-      observer.disconnect();
     };
   }, [pathname]);
 
