@@ -103,10 +103,9 @@ body {
 }
 
 .cards {
-  /* Card layout custom properties */
   --card-height: 550px;
   --card-gap: 20px;
-  --card-count: 4; /* total number of sticky cards */
+  --card-count: 4;
   view-timeline: --cards-view;
 }
 
