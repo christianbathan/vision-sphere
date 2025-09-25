@@ -9,7 +9,6 @@ import countryContent from "@/constants/country-content";
 import ProgressAnimator from "@/components/ProgressAnimator";
 import Ripple from "@/components/Ripple/Ripple";
 import type { CountryCode } from "@/components/CountryModal/types";
-import { instanceIndex } from "three/tsl";
 
 interface countryProps {
   params: Promise<{ countryId: CountryCode }>;
@@ -23,7 +22,7 @@ const CountryLearnMorePage = ({ params }: countryProps) => {
   const allBrands = countryContent.brands;
 
   return (
-    <main>
+    <main className={styles.pageContainer}>
       <section className={styles.bannerContainer}>
         <div className={styles.bannerWrapper}>
           <div className={styles.backVideo}>
